@@ -29,9 +29,11 @@ jobs:
     - name: Send greeting
       run: echo "Hello ${{ github.event.inputs.name }}"
     - name: approved-event
-  # You may pin to the exact commit or the version.
-  # uses: taichi/approved-event-action@8d2b19878d8faa6440003346b3d433c9eb2d767c
-  uses: taichi/approved-event-action@v1.2.1
-  with:
-    # number of approvals require to be approved.
-    approvals: # optional, default is 1
+    - uses: taichi/approved-event-action@v1.2.1
+      id: approved
+      with:
+        approvals: '2'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - run: echo "Approved !!"
+      if: steps.approved.outputs.approved == 'true'
